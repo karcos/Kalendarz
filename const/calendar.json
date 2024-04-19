@@ -28,13 +28,15 @@
         "labels_days": {
             "x": 85,
             "y": 200,
+            "width": 90,
             "font": ["Arial", 15, "bold"],
             "saturday_color": "#7a7979",
             "sunday_color": "#700101"
         },
         "box_day": {
-            "width": 90,
-            "height": 30
+            "y": 250,
+            "width": 13,
+            "height": 15
         }
     }
 }

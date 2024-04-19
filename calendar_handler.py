@@ -35,9 +35,29 @@ class CalendarHandler:
         self.__clear()
         self.__placeCalendarHeader()
         self.__placeDaysNames()
+        self.__placeCalendarMain()
 
     def __placeCalendarMain(self):
-        raise NotImplementedError
+        actual_month_first_day: int
+        actual_month_num_of_days: int
+        actual_month_first_day, actual_month_num_of_days = calendar.monthrange(self.__actual_day.year, self.__actual_day.month)
+
+        previous_month: datetime = self.__actual_day - relativedelta(months=1)
+        previous_month_num_of_days: int = calendar.monthrange(previous_month.year, previous_month.month)[1]
+
+        labels_days_consts = self.__c_constants.getElement("calendar_main", "labels_days")
+        box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
+
+        k: int = 0
+        for i in range(previous_month_num_of_days - actual_month_first_day + 1, previous_month_num_of_days + 1):
+            button_day: ttk.Button = ttk.Button(self.__main_window,
+                                                text=f"{i}",
+                                                padding=(0, box_day_consts["height"]),
+                                                width=box_day_consts["width"],
+                                                command=None)
+            button_day.place(x=labels_days_consts["x"] + (k * labels_days_consts["width"]),
+                             y=box_day_consts["y"])
+            k += 1
 
     def __placeDaysNames(self):
         labels_days_names_consts = self.__c_constants.getElement("calendar_main", "labels_days")
@@ -55,8 +75,9 @@ class CalendarHandler:
                                   text=day_name,
                                   font=labels_days_names_consts["font"],
                                   background=self.__main_window["bg"],
-                                  foreground=foreground_color)
-            day_label.place(x=labels_days_names_consts["x"] + (i * box_day_consts["width"]),
+                                  foreground=foreground_color,
+                                  justify=tk.CENTER)
+            day_label.place(x=labels_days_names_consts["x"] + (i * labels_days_names_consts["width"]),
                             y=labels_days_names_consts["y"])
 
     def __placeCalendarHeader(self):

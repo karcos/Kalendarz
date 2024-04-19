@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3d5bda4-65c6-465c-98ad-3aab9d6a53ce" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Kalendarz.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/calendar_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/events_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/json_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    <list default="true" id="d3d5bda4-65c6-465c-98ad-3aab9d6a53ce" name="Changes" comment="Innitial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calendar_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/calendar_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const/calendar.json" beforeDir="false" afterPath="$PROJECT_DIR$/const/calendar.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "karcos"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/karcos/Kalendarz.git",
+    "accountId": "66860235-92a9-4e1c-bb18-4431c9d645d9"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -91,6 +95,19 @@
       <option name="presentableId" value="Default" />
       <updated>1713287827651</updated>
     </task>
+    <task id="LOCAL-00001" summary="Innitial commit">
+      <option name="closed" value="true" />
+      <created>1713487811806</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713487811806</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Innitial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Innitial commit" />
   </component>
 </project>
