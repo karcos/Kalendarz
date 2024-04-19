@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from events_handler import EventsHandler
 from json_handler import JsonHandler
+from styles import Styles
 
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -15,6 +16,7 @@ class CalendarHandler:
         self.__c_constants = JsonHandler("const/calendar.json", False)
 
         self.__main_window: tk.Tk = tk.Tk()
+        self.__styles = Styles(self.__main_window)
         width: bool
         height: bool
         width, height = self.__w_constants.getElement("resize")
@@ -38,30 +40,49 @@ class CalendarHandler:
         self.__placeCalendarMain()
 
     def __placeCalendarMain(self):
+        labels_days_consts = self.__c_constants.getElement("calendar_main", "labels_days")
+        box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
+
+        list_of_month_days: list[list[tuple[int, str]]] = self.__prepareListOfMonthDays()
+
+        for y, week in enumerate(list_of_month_days):
+            for x, day in enumerate(week):
+                button_day: ttk.Button = ttk.Button(self.__main_window,
+                                                    text=f"{day[0]}",
+                                                    width=box_day_consts["width"],
+                                                    padding=(0, box_day_consts["height"]),
+                                                    command=None)
+                button_day.place(x=labels_days_consts["x"] + (x * labels_days_consts["width"]),
+                                 y=box_day_consts["y"] + (y * labels_days_consts["height"]))
+
+    def __prepareListOfMonthDays(self) -> list[list[tuple[int, str]]]:
         actual_month_first_day: int
         actual_month_num_of_days: int
-        actual_month_first_day, actual_month_num_of_days = calendar.monthrange(self.__actual_day.year, self.__actual_day.month)
+        actual_month_first_day, actual_month_num_of_days = calendar.monthrange(self.__actual_day.year,
+                                                                               self.__actual_day.month)
 
         previous_month: datetime = self.__actual_day - relativedelta(months=1)
         previous_month_num_of_days: int = calendar.monthrange(previous_month.year, previous_month.month)[1]
 
-        labels_days_consts = self.__c_constants.getElement("calendar_main", "labels_days")
-        box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
+        prepare_month_day_list: list[list[tuple[int, str]]] = [[]]
 
-        k: int = 0
         for i in range(previous_month_num_of_days - actual_month_first_day + 1, previous_month_num_of_days + 1):
-            button_day: ttk.Button = ttk.Button(self.__main_window,
-                                                text=f"{i}",
-                                                padding=(0, box_day_consts["height"]),
-                                                width=box_day_consts["width"],
-                                                command=None)
-            button_day.place(x=labels_days_consts["x"] + (k * labels_days_consts["width"]),
-                             y=box_day_consts["y"])
-            k += 1
+            prepare_month_day_list[0].append((i, "before"))
+
+        for i in range(1, actual_month_num_of_days + 1):
+            prepare_month_day_list[-1].append((i, "main"))
+            if len(prepare_month_day_list[-1]) == 7:
+                prepare_month_day_list.append([])
+
+        i: int = 1
+        while len(prepare_month_day_list[-1]) < 7:
+            prepare_month_day_list[-1].append((i, "after"))
+            i += 1
+
+        return prepare_month_day_list
 
     def __placeDaysNames(self):
         labels_days_names_consts = self.__c_constants.getElement("calendar_main", "labels_days")
-        box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
 
         for i, day_name in enumerate(calendar.day_abbr):
             if i == 5:
@@ -83,21 +104,22 @@ class CalendarHandler:
     def __placeCalendarHeader(self):
         today_button = ttk.Button(self.__main_window,
                                   command=self.__setToday,
-                                  text="Today")
+                                  text="Today",
+                                  style=self.__c_constants.getElement("header", "button_today", "style", "name"))
         today_button.place(x=(self.__main_window.winfo_width() - today_button.winfo_reqwidth()) / 2,
                            y=self.__c_constants.getElement("header", "button_today", "y"))
 
         button_left = ttk.Button(self.__main_window,
                                  command=self.__nextMonth,
-                                 text='left',
-                                 padding=(0, self.__c_constants.getElement("header", "arrow_month_left", "height")))
+                                 text='\u2190',
+                                 style=self.__c_constants.getElement("header", "arrow_month_left", "style", "name"))
         button_left.place(x=self.__c_constants.getElement("header", "arrow_month_left", "x"),
                           y=self.__c_constants.getElement("header", "arrow_month_left", "y"))
 
         button_right = ttk.Button(self.__main_window,
                                   command=self.__prevMonth,
-                                  text='right',
-                                  padding=(0, self.__c_constants.getElement("header", "arrow_month_right", "height")))
+                                  text='\u2192',
+                                  style=self.__c_constants.getElement("header", "arrow_month_left", "style", "name"))
         button_right.place(x=self.__c_constants.getElement("header", "arrow_month_right", "x"),
                            y=self.__c_constants.getElement("header", "arrow_month_right", "y"))
 

@@ -1,19 +1,32 @@
 {
     "header": {
         "button_today": {
-            "y": 20
+            "y": 20,
+            "style": {
+                "name": "ButtonToday.TButton",
+                "font": ["Arial", 13],
+                "width": 10
+            }
         },
         "arrow_month_left": {
             "x": 100,
             "y": 50,
-            "width": 100,
-            "height": 25
+            "style": {
+                "name": "ButtonLeftArrow.TButton",
+                "font": ["Arial", 16],
+                "width": 6,
+                "padding": [0, 25]
+            }
         },
         "arrow_month_right": {
             "x": 600,
             "y": 50,
-            "width": 100,
-            "height": 25
+            "style": {
+                "name": "ButtonRightArrow.TButton",
+                "font": ["Arial", 16],
+                "width": 6,
+                "padding": [0, 25]
+            }
         },
         "label_month": {
             "y": 65,
@@ -27,14 +40,16 @@
     "calendar_main": {
         "labels_days": {
             "x": 85,
-            "y": 200,
+            "y": 180,
             "width": 90,
+            "height": 60,
             "font": ["Arial", 15, "bold"],
+            "normal_color": "#000000",
             "saturday_color": "#7a7979",
             "sunday_color": "#700101"
         },
         "box_day": {
-            "y": 250,
+            "y": 230,
             "width": 13,
             "height": 15
         }
