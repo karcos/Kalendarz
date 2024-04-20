@@ -33,13 +33,13 @@ class CalendarHandler:
 
         self.__generateMonth()
 
-    def __generateMonth(self):
+    def __generateMonth(self) -> None:
         self.__clear()
         self.__placeCalendarHeader()
         self.__placeDaysNames()
         self.__placeCalendarMain()
 
-    def __placeCalendarMain(self):
+    def __placeCalendarMain(self) -> None:
         labels_days_consts = self.__c_constants.getElement("calendar_main", "labels_days")
         box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
 
@@ -81,7 +81,7 @@ class CalendarHandler:
 
         return prepare_month_day_list
 
-    def __placeDaysNames(self):
+    def __placeDaysNames(self) -> None:
         labels_days_names_consts = self.__c_constants.getElement("calendar_main", "labels_days")
 
         for i, day_name in enumerate(calendar.day_abbr):
@@ -101,7 +101,7 @@ class CalendarHandler:
             day_label.place(x=labels_days_names_consts["x"] + (i * labels_days_names_consts["width"]),
                             y=labels_days_names_consts["y"])
 
-    def __placeCalendarHeader(self):
+    def __placeCalendarHeader(self) -> None:
         today_button = ttk.Button(self.__main_window,
                                   command=self.__setToday,
                                   text="Today",
@@ -137,20 +137,20 @@ class CalendarHandler:
         year_label.place(x=(self.__main_window.winfo_width() - year_label.winfo_reqwidth()) / 2,
                          y=self.__c_constants.getElement("header", "label_year", "y"))
 
-    def __nextMonth(self):
+    def __nextMonth(self) -> None:
         self.__actual_day -= relativedelta(months=1)
         self.__generateMonth()
 
-    def __prevMonth(self):
+    def __prevMonth(self) -> None:
         self.__actual_day += relativedelta(months=1)
         self.__generateMonth()
 
-    def __setToday(self):
+    def __setToday(self) -> None:
         self.__today_day = datetime.date.today()
         self.__actual_day = self.__today_day
         self.__generateMonth()
 
-    def __clear(self):
+    def __clear(self) -> None:
         for widget in self.__main_window.winfo_children():
             widget.destroy()
 

@@ -7,6 +7,5 @@ import locale
 
 if __name__ == '__main__':
     locale.setlocale(locale.LC_ALL, locale.getlocale())
-
     a = CalendarHandler()
     a.loop()

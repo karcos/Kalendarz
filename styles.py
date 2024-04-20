@@ -4,7 +4,7 @@ from json_handler import JsonHandler
 
 
 class Styles:
-    def __init__(self, master: tk.Tk):
+    def __init__(self, master: tk.Tk) -> None:
         json_data: JsonHandler = JsonHandler("const/calendar.json")
         self.style: ttk.Style = ttk.Style(master)
 
