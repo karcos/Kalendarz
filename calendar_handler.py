@@ -40,8 +40,8 @@ class CalendarHandler:
         self.__placeCalendarMain()
 
     def __placeCalendarMain(self):
-        labels_days_consts = self.__c_constants.getElement("calendar_main", "labels_days")
-        box_day_consts = self.__c_constants.getElement("calendar_main", "box_day")
+        labels_days_consts = self.__c_constants.getElement("labels_days")
+        buttons_days_consts = self.__c_constants.getElement("button_day")
 
         list_of_month_days: list[list[tuple[int, str]]] = self.__prepareListOfMonthDays()
 
@@ -49,11 +49,10 @@ class CalendarHandler:
             for x, day in enumerate(week):
                 button_day: ttk.Button = ttk.Button(self.__main_window,
                                                     text=f"{day[0]}",
-                                                    width=box_day_consts["width"],
-                                                    padding=(0, box_day_consts["height"]),
+                                                    style=self.__c_constants.getElement("button_day", "style", "name"),
                                                     command=None)
-                button_day.place(x=labels_days_consts["x"] + (x * labels_days_consts["width"]),
-                                 y=box_day_consts["y"] + (y * labels_days_consts["height"]))
+                button_day.place(x=labels_days_consts["x"] + (x * labels_days_consts["style"]["width"]),
+                                 y=buttons_days_consts["y"] + (y * labels_days_consts["style"]["height"]))
 
     def __prepareListOfMonthDays(self) -> list[list[tuple[int, str]]]:
         actual_month_first_day: int
@@ -82,60 +81,58 @@ class CalendarHandler:
         return prepare_month_day_list
 
     def __placeDaysNames(self):
-        labels_days_names_consts = self.__c_constants.getElement("calendar_main", "labels_days")
+        labels_days_names_consts = self.__c_constants.getElement("labels_days")
 
         for i, day_name in enumerate(calendar.day_abbr):
+            foreground_color: str = ""
             if i == 5:
-                foreground_color: str = labels_days_names_consts["saturday_color"]
+                foreground_color = labels_days_names_consts["saturday_foreground"]
             elif i == 6:
-                foreground_color: str = labels_days_names_consts["sunday_color"]
-            else:
-                foreground_color: str = "black"
+                foreground_color = labels_days_names_consts["sunday_foreground"]
 
             day_label = ttk.Label(self.__main_window,
                                   text=day_name,
-                                  font=labels_days_names_consts["font"],
                                   background=self.__main_window["bg"],
-                                  foreground=foreground_color,
-                                  justify=tk.CENTER)
-            day_label.place(x=labels_days_names_consts["x"] + (i * labels_days_names_consts["width"]),
+                                  style=self.__c_constants.getElement("labels_days", "style", "name"),
+                                  foreground=foreground_color)
+            day_label.place(x=labels_days_names_consts["x"] + (i * labels_days_names_consts["style"]["width"]),
                             y=labels_days_names_consts["y"])
 
     def __placeCalendarHeader(self):
         today_button = ttk.Button(self.__main_window,
                                   command=self.__setToday,
                                   text="Today",
-                                  style=self.__c_constants.getElement("header", "button_today", "style", "name"))
+                                  style=self.__c_constants.getElement("button_today", "style", "name"))
         today_button.place(x=(self.__main_window.winfo_width() - today_button.winfo_reqwidth()) / 2,
-                           y=self.__c_constants.getElement("header", "button_today", "y"))
+                           y=self.__c_constants.getElement("button_today", "y"))
 
         button_left = ttk.Button(self.__main_window,
                                  command=self.__nextMonth,
                                  text='\u2190',
-                                 style=self.__c_constants.getElement("header", "arrow_month_left", "style", "name"))
-        button_left.place(x=self.__c_constants.getElement("header", "arrow_month_left", "x"),
-                          y=self.__c_constants.getElement("header", "arrow_month_left", "y"))
+                                 style=self.__c_constants.getElement("arrow_month_left", "style", "name"))
+        button_left.place(x=self.__c_constants.getElement("arrow_month_left", "x"),
+                          y=self.__c_constants.getElement("arrow_month_left", "y"))
 
         button_right = ttk.Button(self.__main_window,
                                   command=self.__prevMonth,
                                   text='\u2192',
-                                  style=self.__c_constants.getElement("header", "arrow_month_left", "style", "name"))
-        button_right.place(x=self.__c_constants.getElement("header", "arrow_month_right", "x"),
-                           y=self.__c_constants.getElement("header", "arrow_month_right", "y"))
+                                  style=self.__c_constants.getElement("arrow_month_left", "style", "name"))
+        button_right.place(x=self.__c_constants.getElement("arrow_month_right", "x"),
+                           y=self.__c_constants.getElement("arrow_month_right", "y"))
 
         month_label = ttk.Label(self.__main_window,
                                 text=f"{calendar.month_name[self.__actual_day.month].capitalize()}",
-                                font=self.__c_constants.getElement("header", "label_month", "font"),
-                                background=self.__main_window["bg"])
+                                background=self.__main_window["bg"],
+                                style=self.__c_constants.getElement("label_month", "style", "name"))
         month_label.place(x=(self.__main_window.winfo_width() - month_label.winfo_reqwidth()) / 2,
-                          y=self.__c_constants.getElement("header", "label_month", "y"))
+                          y=self.__c_constants.getElement("label_month", "y"))
 
         year_label = ttk.Label(self.__main_window,
                                text=f"{self.__actual_day.year}",
-                               font=self.__c_constants.getElement("header", "label_year", "font"),
-                               background=self.__main_window["bg"])
+                               background=self.__main_window["bg"],
+                               style=self.__c_constants.getElement("label_year", "style", "name"))
         year_label.place(x=(self.__main_window.winfo_width() - year_label.winfo_reqwidth()) / 2,
-                         y=self.__c_constants.getElement("header", "label_year", "y"))
+                         y=self.__c_constants.getElement("label_year", "y"))
 
     def __nextMonth(self):
         self.__actual_day -= relativedelta(months=1)

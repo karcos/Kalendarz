@@ -36,7 +36,7 @@ class JsonHandler:
                 actual = actual[arg]
             else:
                 messagebox.showerror("Cannot find element!", f"Cannot find \"{arg}\"")
-                return False
+                exit(-1)
 
         return actual
 

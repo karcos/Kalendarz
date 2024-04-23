@@ -1,57 +1,94 @@
 {
-    "header": {
-        "button_today": {
-            "y": 20,
-            "style": {
-                "name": "ButtonToday.TButton",
-                "font": ["Arial", 13],
-                "width": 10
-            }
-        },
-        "arrow_month_left": {
-            "x": 100,
-            "y": 50,
-            "style": {
-                "name": "ButtonLeftArrow.TButton",
-                "font": ["Arial", 16],
-                "width": 6,
-                "padding": [0, 25]
-            }
-        },
-        "arrow_month_right": {
-            "x": 600,
-            "y": 50,
-            "style": {
-                "name": "ButtonRightArrow.TButton",
-                "font": ["Arial", 16],
-                "width": 6,
-                "padding": [0, 25]
-            }
-        },
-        "label_month": {
-            "y": 65,
-            "font": ["Arial", 30]
-        },
-        "label_year": {
-            "y": 120,
-            "font": ["Arial", 25]
+    "button_today": {
+        "y": 20,
+        "style": {
+            "name": "ButtonToday.TButton",
+            "font": [
+                "Arial",
+                13
+            ],
+            "width": 10
         }
     },
-    "calendar_main": {
-        "labels_days": {
-            "x": 85,
-            "y": 180,
+    "arrow_month_left": {
+        "x": 100,
+        "y": 50,
+        "style": {
+            "name": "ButtonLeftArrow.TButton",
+            "font": [
+                "Arial",
+                16
+            ],
+            "width": 6,
+            "padding": [
+                0,
+                25
+            ]
+        }
+    },
+    "arrow_month_right": {
+        "x": 600,
+        "y": 50,
+        "style": {
+            "name": "ButtonRightArrow.TButton",
+            "font": [
+                "Arial",
+                16
+            ],
+            "width": 6,
+            "padding": [
+                0,
+                25
+            ]
+        }
+    },
+    "label_month": {
+        "y": 65,
+        "style": {
+            "name": "LabelMonth.TLabel",
+            "font": [
+                "Arial",
+                30
+            ]
+        }
+    },
+    "label_year": {
+        "y": 120,
+        "style": {
+            "name": "LabelYear.TLabel",
+            "font": [
+                "Arial",
+                25
+            ]
+        }
+    },
+
+    "labels_days": {
+        "x": 85,
+        "y": 180,
+        "style": {
+            "name": "LabelDay.TLabel",
             "width": 90,
             "height": 60,
-            "font": ["Arial", 15, "bold"],
-            "normal_color": "#000000",
-            "saturday_color": "#7a7979",
-            "sunday_color": "#700101"
+            "font": [
+                "Arial",
+                15,
+                "bold"
+            ],
+            "foreground": "#000000"
         },
-        "box_day": {
-            "y": 230,
+        "saturday_foreground": "#7a7979",
+        "sunday_foreground": "#700101"
+    },
+    "button_day": {
+        "y": 230,
+        "style": {
+            "name": "ButtonDay.TButton",
             "width": 13,
-            "height": 15
+            "padding": [
+                0,
+                15
+            ]
         }
     }
 }
