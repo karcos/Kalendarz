@@ -11,6 +11,7 @@ from dateutil.relativedelta import relativedelta
 import calendar
 
 
+
 class CalendarHandler:
     def __init__(self) -> None:
         self.__w_constants: JsonHandler = JsonHandler("const/window.json", False)
