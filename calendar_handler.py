@@ -3,6 +3,7 @@ from tkinter import ttk
 from events_handler import EventsHandler
 from json_handler import JsonHandler
 from styles import Styles
+from functools import partial
 
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -12,24 +13,25 @@ import calendar
 
 class CalendarHandler:
     def __init__(self) -> None:
-        self.__w_constants = JsonHandler("const/window.json", False)
-        self.__c_constants = JsonHandler("const/calendar.json", False)
+        self.__w_constants: JsonHandler = JsonHandler("const/window.json", False)
+        self.__c_constants: JsonHandler = JsonHandler("const/calendar.json", False)
 
         self.__main_window: tk.Tk = tk.Tk()
-        self.__styles = Styles(self.__main_window)
+        self.__styles: Styles = Styles(self.__main_window)
         width: bool
         height: bool
-        width, height = self.__w_constants.getElement("resize")
+        width, height = self.__w_constants.getElement("root", "resize")
         self.__main_window.resizable(width, height)
-        self.__main_window.title(self.__w_constants.getElement("title"))
-        self.__main_window.geometry(self.__w_constants.getElement("size"))
-        self.__main_window.configure(bg=self.__w_constants.getElement("bg_color"))
+        self.__main_window.title(self.__w_constants.getElement("root", "title"))
+        self.__main_window.geometry(self.__w_constants.getElement("root", "size"))
+        self.__main_window.configure(bg=self.__w_constants.getElement("root", "bg_color"))
         self.__main_window.update()
 
         self.__today_day: datetime = datetime.date.today()
         self.__actual_day: datetime = self.__today_day
 
         self.__events_handler: EventsHandler = EventsHandler()
+        self.__top_level_windows: list[tk.Toplevel] = []
 
         self.__generateMonth()
 
@@ -39,20 +41,53 @@ class CalendarHandler:
         self.__placeDaysNames()
         self.__placeCalendarMain()
 
-    def __placeCalendarMain(self):
-        labels_days_consts = self.__c_constants.getElement("labels_days")
-        buttons_days_consts = self.__c_constants.getElement("button_day")
+    def __openEventsWindow(self, date: datetime) -> None:
+        events = self.__events_handler.getEventsByDay(date)
+        print(events)
+
+        new_window: tk.Toplevel = tk.Toplevel(self.__main_window,
+                                              width=self.__w_constants.getElement("day_events", "width"),
+                                              height=self.__w_constants.getElement("day_events", "height"))
+        new_window.title(f"{date.day} {calendar.month_name[date.month]} {date.year}")
+        width: bool
+        height: bool
+        width, height = self.__w_constants.getElement("day_events", "resize")
+        new_window.resizable(width, height)
+
+        new_window.protocol("WM_DELETE_WINDOW", partial(self.__closeTopLevel, new_window))
+
+        self.__top_level_windows.append(new_window)
+
+    def __closeTopLevel(self, window: tk.Toplevel):
+        self.__top_level_windows.remove(window)
+        window.destroy()
+
+        for win in self.__top_level_windows:
+            win.tkraise()
+
+    def __placeCalendarMain(self) -> None:
+        labels_days_consts: dict = self.__c_constants.getElement("labels_days")
+        labels_days_style: dict = labels_days_consts["style"]
+        buttons_days_consts: dict = self.__c_constants.getElement("button_day")
 
         list_of_month_days: list[list[tuple[int, str]]] = self.__prepareListOfMonthDays()
 
         for y, week in enumerate(list_of_month_days):
             for x, day in enumerate(week):
+                date: datetime = datetime.datetime(self.__actual_day.year, self.__actual_day.month, 1)
+                if day[1] == "before":
+                    date -= relativedelta(months=1)
+                elif day[1] == "after":
+                    date += relativedelta(months=1)
+
+                date = date.replace(day=day[0])
+
                 button_day: ttk.Button = ttk.Button(self.__main_window,
                                                     text=f"{day[0]}",
                                                     style=self.__c_constants.getElement("button_day", "style", "name"),
-                                                    command=None)
-                button_day.place(x=labels_days_consts["x"] + (x * labels_days_consts["style"]["width"]),
-                                 y=buttons_days_consts["y"] + (y * labels_days_consts["style"]["height"]))
+                                                    command=partial(self.__openEventsWindow, date))
+                button_day.place(x=labels_days_consts["x"] + (x * labels_days_style["width"]),
+                                 y=buttons_days_consts["y"] + (y * labels_days_style["height"]))
 
     def __prepareListOfMonthDays(self) -> list[list[tuple[int, str]]]:
         actual_month_first_day: int
@@ -80,7 +115,7 @@ class CalendarHandler:
 
         return prepare_month_day_list
 
-    def __placeDaysNames(self):
+    def __placeDaysNames(self) -> None:
         labels_days_names_consts = self.__c_constants.getElement("labels_days")
 
         for i, day_name in enumerate(calendar.day_abbr):
@@ -98,7 +133,7 @@ class CalendarHandler:
             day_label.place(x=labels_days_names_consts["x"] + (i * labels_days_names_consts["style"]["width"]),
                             y=labels_days_names_consts["y"])
 
-    def __placeCalendarHeader(self):
+    def __placeCalendarHeader(self) -> None:
         today_button = ttk.Button(self.__main_window,
                                   command=self.__setToday,
                                   text="Today",
@@ -134,20 +169,20 @@ class CalendarHandler:
         year_label.place(x=(self.__main_window.winfo_width() - year_label.winfo_reqwidth()) / 2,
                          y=self.__c_constants.getElement("label_year", "y"))
 
-    def __nextMonth(self):
+    def __nextMonth(self) -> None:
         self.__actual_day -= relativedelta(months=1)
         self.__generateMonth()
 
-    def __prevMonth(self):
+    def __prevMonth(self) -> None:
         self.__actual_day += relativedelta(months=1)
         self.__generateMonth()
 
-    def __setToday(self):
+    def __setToday(self) -> None:
         self.__today_day = datetime.date.today()
         self.__actual_day = self.__today_day
         self.__generateMonth()
 
-    def __clear(self):
+    def __clear(self) -> None:
         for widget in self.__main_window.winfo_children():
             widget.destroy()
 

@@ -1,6 +1,19 @@
 {
-    "title": "Calendar",
-    "size": "800x600",
-    "resize": [false, false],
-    "bg_color": "#2e2e2e"
+    "root": {
+        "title": "Calendar",
+        "size": "800x600",
+        "resize": [
+            false,
+            false
+        ],
+        "bg_color": "#2e2e2e"
+    },
+    "day_events": {
+        "width": 300,
+        "height": 500,
+        "resize": [
+            false,
+            false
+        ]
+    }
 }

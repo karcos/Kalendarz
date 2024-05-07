@@ -48,3 +48,6 @@ class JsonHandler:
         with open(self.__json_file_path, 'w') as json_file:
             json.dump(self.__json_data, json_file, ensure_ascii=True, indent=4)
 
+    @property
+    def data(self) -> dict:
+        return self.__json_data
